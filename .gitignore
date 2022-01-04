@@ -80,8 +80,6 @@ typings/
 # nuxt.js build output
 .nuxt
 
-# rollup.js default build output
-dist/
 
 # Uncomment the public line if your project uses Gatsby
 # https://nextjs.org/blog/next-9-1#public-directory-support
@@ -91,9 +89,7 @@ dist/
 # Storybook build outputs
 .out
 .storybook-out
-
-# vuepress build output
-.vuepress/dist
+ 
 
 # Serverless directories
 .serverless/
@@ -113,7 +109,6 @@ temp/
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
 /tmp
 /out-tsc
 # Only exists if Bazel was run
