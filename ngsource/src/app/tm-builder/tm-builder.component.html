@@ -1,10 +1,21 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-4">
+    <div class="col-2 border-end">
       <p>Builder</p>
       <form class="d-flex flex-column">
+        <label for="host">Company</label>
+        <input name="host" id="host" type="text" [(ngModel)]="companyName" />
+
+        <label for="tname">Tournament Name</label>
+        <input
+          name="tname"
+          id="tname"
+          type="text"
+          [(ngModel)]="tournamentName"
+        />
+
         <label for="main">Main Color</label>
-        <input name="main" id="main" type="color" [(ngModel)]="mainColor" />
+        <input name="main" id="main" type="color" [(ngModel)]="brandColor" />
         <label for="accent">Accent Color</label>
         <input
           name="accent"
@@ -39,14 +50,14 @@
         />
       </form>
     </div>
-    <div class="col-8">
-      Preview
+    <div class="col-10">
+      <app-tm-template [tournament]="previewData"></app-tm-template>
 
-      <h1 [ngStyle]="{ color: mainColor }">Logo</h1>
+      <!-- <h1 [ngStyle]="{ color: mainColor }">Logo</h1>
       <h3 [ngStyle]="{ color: accentColor }">Subtext</h3>
       <div>
         <img [src]="imageSrc" width="160" height="160" />
-      </div>
+      </div> -->
 
       <!-- need to make sure db is updated before sending client there -->
       <button routerLink="/tournament/1" class="btn btn-primary">

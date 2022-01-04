@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ITournament } from '../types/tournament';
 
 /*  details such as number of players, game streaming link, upload logo, select branding colors etc. */
 @Component({
@@ -8,11 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TmBuilderComponent implements OnInit {
   constructor() {}
-  public mainColor = '#ff4000';
+  public companyName = '';
+  public tournamentName = '';
+  public brandColor = '#ff4000';
   public accentColor = '#0D00C2';
-  public imageSrc = '/assets/images/logo.png';
+  public imageSrc = '#';
   public players: number = 0;
   public streamLink = '#';
+  public get previewData(): ITournament {
+    return {
+      name: this.companyName,
+      brandColor: this.brandColor,
+      accentColor: this.accentColor,
+      logoLink: this.imageSrc,
+      playersNumber: this.players,
+      streamLink: this.streamLink,
+      tournamentName: this.tournamentName,
+    };
+  }
 
   readURL(event: any): void {
     if (event.target.files && event.target.files[0]) {
