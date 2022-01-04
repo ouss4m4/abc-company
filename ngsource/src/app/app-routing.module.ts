@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { TmBuilderComponent } from './tm-builder/tm-builder.component';
 import { TmTemplateComponent } from './tm-template/tm-template.component';
+import { TmValidationComponent } from './tm-validation/tm-validation.component';
 
 const routes: Routes = [
   {
@@ -20,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'tournament/:id',
-    component: TmTemplateComponent,
+    component: TmValidationComponent,
   },
 ];
 

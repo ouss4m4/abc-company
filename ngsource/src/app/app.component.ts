@@ -6,14 +6,4 @@ import { ITournament } from './types/tournament';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
-  public testTournament: ITournament = {
-    name: 'Pepsi Co',
-    brandColor: '#004892',
-    accentColor: '#e40028',
-    logoLink: '/assets/images/pepsi-logo.png',
-    playersNumber: 24,
-    streamLink: 'https://www.pepsi.com/',
-    tournamentName: 'FIFA World Cup',
-  };
-}
+export class AppComponent {}

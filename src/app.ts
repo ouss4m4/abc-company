@@ -1,12 +1,18 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { TestRoute } from './routes/test';
+import { join } from 'path';
+import { TournamentRouter } from './controllers/TournamentRouter';
+
 class App {
   public app: express.Application;
-  public testRoute = new TestRoute();
+
   constructor() {
     this.app = express();
     this.config();
-    this.testRoute.routes(this.app);
+    this.app.use('/apiv1/tournament', new TournamentRouter().router);
+    this.app.use(express.static(__dirname + '/static'));
+    this.app.get('/*', (_, res) => {
+      res.sendFile(join(__dirname + '/static/index.html'));
+    });
   }
 
   private config(): void {
@@ -19,18 +25,12 @@ class App {
       );
       next();
     });
-    const _app_folder = 'dist';
 
-    this.app.use(express.static('dist'));
-
-    this.app.use(express.static('/dist'));
     this.app.use((req, res, next) => {
-      express.json()(req, res, err => {
+      express.json()(req, res, (err) => {
         if (err) {
-          console.error(err);
           return res.sendStatus(400);
         }
-
         next();
       });
     });

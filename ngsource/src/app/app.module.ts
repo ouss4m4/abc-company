@@ -8,6 +8,8 @@ import { TmTemplateComponent } from './tm-template/tm-template.component';
 import { LoginpageComponent } from './loginpage/loginpage.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { TmValidationComponent } from './tm-validation/tm-validation.component';
 
 @NgModule({
   declarations: [
@@ -15,8 +17,15 @@ import { CommonModule } from '@angular/common';
     TmBuilderComponent,
     TmTemplateComponent,
     LoginpageComponent,
+    TmValidationComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, CommonModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
