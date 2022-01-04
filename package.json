@@ -2,7 +2,7 @@
   "name": "angular-express-starter",
   "version": "0.0.0",
   "description": "angular express starter template",
-  "main": "index.js",
+  "main": "dist/server.js",
   "directories": {
     "test": "test"
   },
@@ -13,7 +13,7 @@
     "test": "jest --runInBand --forceExit --detectOpenHandles",
     "build:ng": "cd ngsource && npm i && ng build --prod --outputPath=../dist/static && cd ..",
     "build": "npx tsc ",
-    "start":"node dist/index.js"
+    "start":"node dist/server.js"
   },
   "keywords": [
     "express",
