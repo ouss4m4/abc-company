@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { ITournament } from './types/tournament';
+import { ITMresponse, ITournament } from './types/tournament';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +19,8 @@ export class ApiService {
   };
   constructor(private httpClient: HttpClient) {}
   private url = 'http://localhost:5000/api/v1/tournament';
-  public updateTournamentDetails(tm: ITournament) {
-    return this.httpClient.post(this.url, tm);
+  public createTournament(tm: ITournament) {
+    return this.httpClient.post<ITMresponse>(this.url, tm);
   }
   public getTournamentDetails(tmid: string) {
     // return of(this.testTournament).pipe(delay(650));

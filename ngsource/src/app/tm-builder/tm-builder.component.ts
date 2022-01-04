@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService } from '../api.service';
 import { ITournament } from '../types/tournament';
 
 /*  details such as number of players, game streaming link, upload logo, select branding colors etc. */
@@ -7,8 +9,8 @@ import { ITournament } from '../types/tournament';
   templateUrl: './tm-builder.component.html',
   styleUrls: ['./tm-builder.component.scss'],
 })
-export class TmBuilderComponent implements OnInit {
-  constructor() {}
+export class TmBuilderComponent {
+  constructor(private api: ApiService, private router: Router) {}
   public companyName = '';
   public tournamentName = '';
   public brandColor = '#ff4000';
@@ -39,5 +41,11 @@ export class TmBuilderComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  createTournament() {
+    const tmData: ITournament = this.previewData;
+    tmData.logoLink = '/assets/images/pepsi-logo.png';
+    this.api.createTournament(tmData).subscribe((res) => {
+      this.router.navigate(['tournament', res.result._id]);
+    });
+  }
 }

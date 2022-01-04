@@ -6,7 +6,7 @@ export interface ITournament {
   playersNumber: number;
   streamLink: string;
   logoLink: string;
-  id?: string;
+  _id?: string;
 }
 
 export interface ITMresponse {
