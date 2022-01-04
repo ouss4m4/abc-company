@@ -11,7 +11,7 @@
     "dev": "npx ts-node-dev ./src/server.ts",
     "prod": "npx tsc && node ./dist/server.js",
     "test": "jest --runInBand --forceExit --detectOpenHandles",
-    "build:ng": "cd ngsource && npm i && ng build --prod --outputPath=../dist/static && cd ..",
+    "build:ng": "cd ngsource && npm i && ng build --outputPath=../dist/static && cd ..",
     "build": "npx tsc ",
     "start":"node dist/server.js"
   },
