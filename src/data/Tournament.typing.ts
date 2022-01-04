@@ -6,10 +6,4 @@ export interface ITournament {
   playersNumber: number;
   streamLink: string;
   logoLink: string;
-  id?: string;
-}
-
-export interface ITMresponse {
-  success: boolean;
-  result: ITournament;
 }

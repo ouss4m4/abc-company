@@ -18,12 +18,12 @@ export class ApiService {
     tournamentName: 'FIFA World Cup',
   };
   constructor(private httpClient: HttpClient) {}
-  private url = 'http://localhost:5000/api/tournament';
+  private url = 'http://localhost:5000/api/v1/tournament';
   public updateTournamentDetails(tm: ITournament) {
     return this.httpClient.post(this.url, tm);
   }
   public getTournamentDetails(tmid: string) {
     // return of(this.testTournament).pipe(delay(650));
-    return this.httpClient.get<ITournament>(this.url);
+    return this.httpClient.get<ITournament>(`${this.url}/${tmid}`);
   }
 }
