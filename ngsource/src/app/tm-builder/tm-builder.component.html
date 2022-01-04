@@ -1,1 +1,52 @@
-<p>tm-builder works!</p>
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <p>Builder</p>
+      <form class="d-flex flex-column">
+        <label for="main">Main Color</label>
+        <input name="main" id="main" type="color" [(ngModel)]="mainColor" />
+        <label for="accent">Accent Color</label>
+        <input
+          name="accent"
+          id="accent"
+          type="color"
+          [(ngModel)]="accentColor"
+        />
+        <label for="image">Upload your logo</label>
+        <input
+          id="image"
+          name="image"
+          type="file"
+          accept="image/*"
+          (change)="readURL($event)"
+        />
+        <label for="players">Number of players</label>
+        <input
+          name="players"
+          id="players"
+          type="number"
+          [min]="0"
+          [(ngModel)]="players"
+          class="form-control"
+        />
+        <label for="streamlink">Stream Link</label>
+        <input
+          name="streamlink"
+          id="streamlink"
+          type="text"
+          class="form-control"
+          placeholder="stream link"
+        />
+      </form>
+    </div>
+    <div class="col-8">
+      Preview
+
+      <h1 [ngStyle]="{ color: mainColor }">Logo</h1>
+      <h3 [ngStyle]="{ color: accentColor }">Subtext</h3>
+      <div>
+        <img [src]="imageSrc" width="160" height="160" />
+      </div>
+    </div>
+  </div>
+</div>

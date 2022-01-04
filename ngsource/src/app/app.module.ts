@@ -6,19 +6,18 @@ import { AppComponent } from './app.component';
 import { TmBuilderComponent } from './tm-builder/tm-builder.component';
 import { TmTemplateComponent } from './tm-template/tm-template.component';
 import { LoginpageComponent } from './loginpage/loginpage.component';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
     AppComponent,
     TmBuilderComponent,
     TmTemplateComponent,
-    LoginpageComponent
+    LoginpageComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule, CommonModule, FormsModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
