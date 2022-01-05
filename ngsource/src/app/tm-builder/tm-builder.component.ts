@@ -51,7 +51,7 @@ export class TmBuilderComponent {
     form.append('brandColor', this.brandColor);
     form.append('accentColor', this.accentColor);
     form.append('playersNumber', this.playersNumber.toString());
-    form.append('streamLink', this.streamLink.toString());
+    form.append('streamLink', this.streamLink);
 
     // const tmData: ITournament = this.previewData;
     // tmData.logoLink = '/assets/images/pepsi-logo.png';
