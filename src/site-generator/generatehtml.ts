@@ -1,7 +1,6 @@
 import { ITournament } from '../data/Tournament.typing';
 
 export const generateHtml = (data: ITournament): string => {
-  console.log('generating html with data', data);
   return `
 <!DOCTYPE html>
 <html lang="en">

@@ -41,10 +41,6 @@ export class TournamentRouter {
     /* tournament data and log upload */
     this.router.post(
       '/',
-      (req, res, next) => {
-        console.log('route reached', req.url);
-        next();
-      },
       this.upload.single('image'),
       async (req: Request, res: Response) => {
         try {
@@ -96,10 +92,6 @@ export class TournamentRouter {
     const output = createWriteStream(__dirname + '/project.zip');
     const archive = archiver('zip', {
       zlib: { level: 9 }, // Sets the compression level.
-    });
-
-    output.on('end', function () {
-      console.log('Data has been drained');
     });
 
     output.on('close', function () {
