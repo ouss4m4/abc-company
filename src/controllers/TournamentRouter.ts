@@ -91,7 +91,7 @@ export class TournamentRouter {
     // create a file to stream archive data to.
     const output = createWriteStream(__dirname + '/project.zip');
     const archive = archiver('zip', {
-      zlib: { level: 9 }, // Sets the compression level.
+      zlib: { level: 1 }, // Sets the compression level.
     });
 
     output.on('close', function () {
