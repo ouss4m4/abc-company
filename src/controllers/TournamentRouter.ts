@@ -1,10 +1,13 @@
 import { Request, Response, Router } from 'express';
-import { Tournament } from '../data/Tournament.schema';
-import multer from 'multer';
+import { writeFileSync, createWriteStream } from 'fs';
 import { join } from 'path';
+import multer from 'multer';
+import archiver from 'archiver';
+
+import { Tournament } from '../data/Tournament.schema';
 import { generateHtml } from '../site-generator/generatehtml';
 import { ITournament } from '../data/Tournament.typing';
-import { writeFileSync } from 'fs';
+
 var storage = multer.diskStorage({
   destination: function (req: any, file: any, cb) {
     cb(null, 'dist/static');
@@ -35,32 +38,6 @@ export class TournamentRouter {
       }
     });
 
-    /* generate website and send it */
-    this.router.get('/download/:id', async (req: Request, res: Response) => {
-      try {
-        const tmid = req.params.id;
-        const result = await Tournament.findById(tmid);
-        /* genereate html file */
-        const htmlData = generateHtml(result as ITournament);
-        // const filepath = (join(__dirname, 'tmp', 'client.html'), htmlData);
-        const htmlfile = join(__dirname, '..', 'dist', 'static', 'client.html');
-        writeFileSync(htmlfile, htmlData);
-
-        /* grab logo */
-        const imgfile = join(
-          __dirname,
-          '..',
-          'dist',
-          'static',
-          result?.logoLink as string
-        );
-
-        res.download(htmlfile); // Set disposition and send it.
-      } catch (error) {
-        res.status(500).send(error);
-      }
-    });
-
     /* tournament data and log upload */
     this.router.post(
       '/',
@@ -81,17 +58,54 @@ export class TournamentRouter {
         }
       }
     );
-    this.router.put('/:id', (req: Request, res: Response) =>
-      res.status(200).send({ success: true })
-    );
-  }
-}
 
-/* const file = join(
+    /* generate website and send it */
+    this.router.get('/download/:id', async (req: Request, res: Response) => {
+      try {
+        const tmid = req.params.id;
+        const result = await Tournament.findById(tmid);
+        /* genereate html file */
+        const htmlData = generateHtml(result as ITournament);
+        // const filepath = (join(__dirname, 'tmp', 'client.html'), htmlData);
+        const htmlfile = join(__dirname, '..', 'dist', 'static', 'client.html');
+        writeFileSync(htmlfile, htmlData);
+
+        /* grab logo */
+        const imgfile = join(
           __dirname,
-          '..',
           '..',
           'dist',
           'static',
           result?.logoLink as string
-        ); */
+        );
+        await this.zipFiles(imgfile, htmlfile);
+        res.download(__dirname + '/example.zip'); // Set disposition and send it.
+      } catch (error) {
+        res.status(500).send(error);
+      }
+    });
+  }
+
+  private async zipFiles(imgpath: string, htmlpath: string) {
+    // create a file to stream archive data to.
+    const output = createWriteStream(__dirname + '/example.zip');
+    const archive = archiver('zip', {
+      zlib: { level: 1 }, // Sets the compression level.
+    });
+    archive.on('error', function (err) {
+      throw err;
+    });
+
+    // pipe archive data to the output file
+    archive.pipe(output);
+
+    // append files
+    archive.file(imgpath, {
+      name: 'file0-or-change-this-whatever.txt',
+    });
+    archive.file(htmlpath, { name: 'index.html' });
+
+    //
+    return await archive.finalize();
+  }
+}
