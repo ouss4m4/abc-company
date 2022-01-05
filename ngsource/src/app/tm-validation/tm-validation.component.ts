@@ -10,11 +10,7 @@ import { ITournament } from '../types/tournament';
 })
 export class TmValidationComponent implements OnInit {
   public tmid: string | null;
-  constructor(
-    private route: ActivatedRoute,
-    private api: ApiService,
-    private router: Router
-  ) {
+  constructor(private route: ActivatedRoute, private api: ApiService) {
     this.tmid = this.route.snapshot.paramMap.get('id');
   }
   public dataLoaded = false;
@@ -22,7 +18,6 @@ export class TmValidationComponent implements OnInit {
   ngOnInit(): void {
     if (this.tmid !== null) {
       this.api.getTournamentDetails(this.tmid).subscribe((res) => {
-        console.log('tournament data', res);
         this.tournamentData = res;
         this.dataLoaded = true;
       });

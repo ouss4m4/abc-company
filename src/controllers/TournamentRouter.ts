@@ -2,7 +2,9 @@ import { Request, Response, Router } from 'express';
 import { Tournament } from '../data/Tournament.schema';
 import multer from 'multer';
 import { join } from 'path';
-
+import { generateHtml } from '../site-generator/generatehtml';
+import { ITournament } from '../data/Tournament.typing';
+import { writeFileSync } from 'fs';
 var storage = multer.diskStorage({
   destination: function (req: any, file: any, cb) {
     cb(null, 'dist/static');
@@ -32,26 +34,34 @@ export class TournamentRouter {
         res.status(500).send(error);
       }
     });
+
     /* generate website and send it */
     this.router.get('/download/:id', async (req: Request, res: Response) => {
       try {
-        console.log('-----?? EW?');
         const tmid = req.params.id;
         const result = await Tournament.findById(tmid);
-        const file = join(
+        /* genereate html file */
+        const htmlData = generateHtml(result as ITournament);
+        // const filepath = (join(__dirname, 'tmp', 'client.html'), htmlData);
+        const htmlfile = join(__dirname, '..', 'dist', 'static', 'client.html');
+        writeFileSync(htmlfile, htmlData);
+
+        /* grab logo */
+        const imgfile = join(
           __dirname,
-          '..',
           '..',
           'dist',
           'static',
           result?.logoLink as string
         );
-        res.download(file); // Set disposition and send it.
+
+        res.download(htmlfile); // Set disposition and send it.
       } catch (error) {
         res.status(500).send(error);
       }
     });
 
+    /* tournament data and log upload */
     this.router.post(
       '/',
       (req, res, next) => {
@@ -60,12 +70,9 @@ export class TournamentRouter {
       },
       this.upload.single('image'),
       async (req: Request, res: Response) => {
-        console.log(req.file);
         try {
-          console.log(req.body);
-          req.body.logoLink = `/${req.file?.filename}`;
+          req.body.logoLink = `${req.file?.filename}`;
           const result = new Tournament(req.body);
-
           await result.save();
           res.status(200).send({ success: true, result });
         } catch (error) {
@@ -79,3 +86,12 @@ export class TournamentRouter {
     );
   }
 }
+
+/* const file = join(
+          __dirname,
+          '..',
+          '..',
+          'dist',
+          'static',
+          result?.logoLink as string
+        ); */
