@@ -1,14 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 import { ITMresponse, ITournament } from './types/tournament';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  public testTournament: ITournament = {
+  /* public testTournament: ITournament = {
     name: 'Pepsi Co',
     brandColor: '#004892',
     accentColor: '#e40028',
@@ -16,9 +15,9 @@ export class ApiService {
     playersNumber: 24,
     streamLink: 'https://www.pepsi.com/',
     tournamentName: 'FIFA World Cup',
-  };
+  }; */
   constructor(private httpClient: HttpClient) {}
-  private url = 'http://localhost:5000/api/v1/tournament';
+  private url = `${environment.api_url}/tournament`;
   public createTournament(tm: ITournament) {
     return this.httpClient.post<ITMresponse>(this.url, tm);
   }

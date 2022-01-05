@@ -11,10 +11,10 @@ import { ITournament } from '../types/tournament';
 })
 export class TmBuilderComponent {
   constructor(private api: ApiService, private router: Router) {}
-  public companyName = '';
-  public tournamentName = '';
-  public brandColor = '#ff4000';
-  public accentColor = '#0D00C2';
+  public companyName = 'Pepsi Co';
+  public tournamentName = 'FIFA World Cup';
+  public brandColor = '#0D00C2';
+  public accentColor = '#ff4000';
   public imageSrc = '#';
   public players: number = 0;
   public streamLink = '#';

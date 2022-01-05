@@ -1,3 +1,23 @@
 <div *ngIf="dataLoaded && tournamentData">
   <app-tm-template [tournament]="tournamentData"></app-tm-template>
+  <div class="container">
+    <hr class="mt-5" />
+    <div
+      class="w-25 d-flex flex-column items-align-center justify-content-center"
+    >
+      <form>
+        <label for="clientUrl">Website :</label>
+        <input
+          id="clientUrl"
+          name="clientUrl"
+          type="text"
+          placeholder="https://pepsi.com/tournament"
+          class="form-control"
+        />
+        <button type="submit" class="btn btn-outline-primary">
+          Deploy MicroSite
+        </button>
+      </form>
+    </div>
+  </div>
 </div>
