@@ -18,8 +18,8 @@ export class ApiService {
   }; */
   constructor(private httpClient: HttpClient) {}
   private url = `${environment.api_url}/tournament`;
-  public createTournament(tm: ITournament) {
-    return this.httpClient.post<ITMresponse>(this.url, tm);
+  public createTournament(tmData: FormData) {
+    return this.httpClient.post<ITMresponse>(this.url, tmData);
   }
   public getTournamentDetails(tmid: string) {
     // return of(this.testTournament).pipe(delay(650));

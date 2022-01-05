@@ -10,6 +10,8 @@ class App {
     this.config();
     this.app.use('/api/v1/tournament', new TournamentRouter().router);
     this.app.use(express.static(join(__dirname, 'static')));
+    this.app.use(express.static(join(__dirname, '..', 'dist', 'static')));
+    this.app.use(express.static(join(__dirname, 'dist', 'static')));
     this.app.get('/*', (_, res) => {
       res.sendFile(join(__dirname + '/static/index.html'));
     });

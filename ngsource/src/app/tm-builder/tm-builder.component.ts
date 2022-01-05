@@ -16,7 +16,8 @@ export class TmBuilderComponent {
   public brandColor = '#0D00C2';
   public accentColor = '#ff4000';
   public imageSrc = '#';
-  public players: number = 0;
+  public imgFile: any;
+  public playersNumber: number = 0;
   public streamLink = '#';
   public get previewData(): ITournament {
     return {
@@ -24,7 +25,7 @@ export class TmBuilderComponent {
       brandColor: this.brandColor,
       accentColor: this.accentColor,
       logoLink: this.imageSrc,
-      playersNumber: this.players,
+      playersNumber: this.playersNumber,
       streamLink: this.streamLink,
       tournamentName: this.tournamentName,
     };
@@ -33,6 +34,7 @@ export class TmBuilderComponent {
   readURL(event: any): void {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
+      this.imgFile = file;
       const reader = new FileReader();
       /* setup event before calling uploaded file */
       reader.onload = (e) => (this.imageSrc = reader.result as string);
@@ -42,10 +44,20 @@ export class TmBuilderComponent {
   }
 
   createTournament() {
-    const tmData: ITournament = this.previewData;
-    tmData.logoLink = '/assets/images/pepsi-logo.png';
-    this.api.createTournament(tmData).subscribe((res) => {
+    const form = new FormData();
+    form.append('image', this.imgFile);
+    form.append('name', this.companyName);
+    form.append('tournamentName', this.tournamentName);
+    form.append('brandColor', this.brandColor);
+    form.append('accentColor', this.accentColor);
+    form.append('playersNumber', this.playersNumber.toString());
+    form.append('streamLink', this.streamLink.toString());
+
+    // const tmData: ITournament = this.previewData;
+    // tmData.logoLink = '/assets/images/pepsi-logo.png';
+    this.api.createTournament(form).subscribe((res) => {
       this.router.navigate(['tournament', res.result._id]);
-    });
+    }),
+      console.log;
   }
 }

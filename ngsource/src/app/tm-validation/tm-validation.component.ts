@@ -22,6 +22,7 @@ export class TmValidationComponent implements OnInit {
   ngOnInit(): void {
     if (this.tmid !== null) {
       this.api.getTournamentDetails(this.tmid).subscribe((res) => {
+        console.log('tournament data', res);
         this.tournamentData = res;
         this.dataLoaded = true;
       });
