@@ -62,38 +62,60 @@ export class TournamentRouter {
     /* generate website and send it */
     this.router.get('/download/:id', async (req: Request, res: Response) => {
       try {
+        /* Fetch tournament details */
         const tmid = req.params.id;
         const result = await Tournament.findById(tmid);
+        if (!result) {
+          throw new Error('Tournament not found');
+        }
         /* genereate html file */
         const htmlData = generateHtml(result as ITournament);
-        // const filepath = (join(__dirname, 'tmp', 'client.html'), htmlData);
-        const htmlfile = join(__dirname, '..', 'dist', 'static', 'client.html');
-        writeFileSync(htmlfile, htmlData);
+        const htmlpath = join(__dirname, '..', 'static', 'client.html');
+        writeFileSync(htmlpath, htmlData);
 
-        /* grab logo */
-        const imgfile = join(
-          __dirname,
-          '..',
-          'dist',
-          'static',
-          result?.logoLink as string
-        );
-        await this.zipFiles(imgfile, htmlfile);
-        res.download(__dirname + '/example.zip'); // Set disposition and send it.
+        /* get img path */
+        const imgpath = join(__dirname, '..', 'static', result.logoLink);
+
+        /* calls archiver */
+        this.zipFiles(imgpath, result.logoLink, htmlpath, 'index.html', res);
       } catch (error) {
+        console.log(error);
         res.status(500).send(error);
       }
     });
   }
 
-  private async zipFiles(imgpath: string, htmlpath: string) {
+  private async zipFiles(
+    imgpath: string,
+    imgname: string,
+    htmlpath: string,
+    htmlname: string,
+    res: Response
+  ) {
     // create a file to stream archive data to.
-    const output = createWriteStream(__dirname + '/example.zip');
+    const output = createWriteStream(__dirname + '/project.zip');
     const archive = archiver('zip', {
-      zlib: { level: 1 }, // Sets the compression level.
+      zlib: { level: 9 }, // Sets the compression level.
     });
+
+    output.on('end', function () {
+      console.log('Data has been drained');
+    });
+
+    output.on('close', function () {
+      console.log(archive.pointer() + ' total bytes');
+      console.log(
+        'archiver has been finalized and the output file descriptor has closed.'
+      );
+      res.download(__dirname + '/project.zip'); // Set disposition and send it.
+    });
+
+    archive.on('warning', function (err) {
+      console.log(err);
+    });
+
     archive.on('error', function (err) {
-      throw err;
+      console.log(err);
     });
 
     // pipe archive data to the output file
@@ -101,11 +123,12 @@ export class TournamentRouter {
 
     // append files
     archive.file(imgpath, {
-      name: 'file0-or-change-this-whatever.txt',
+      name: imgname,
     });
-    archive.file(htmlpath, { name: 'index.html' });
+    archive.file(htmlpath, { name: htmlname });
 
-    //
-    return await archive.finalize();
+    // finalize the archive (ie we are done appending files but streams have to finish yet)
+    // 'close', 'end' or 'finish' may be fired right after calling this method so register to them beforehand
+    archive.finalize();
   }
 }
