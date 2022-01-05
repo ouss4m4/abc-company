@@ -28,4 +28,9 @@ export class TmValidationComponent implements OnInit {
       });
     }
   }
+  downloadFiles() {
+    if (this.tmid) {
+      this.api.downloadFile(this.tmid).subscribe();
+    }
+  }
 }

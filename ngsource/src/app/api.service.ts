@@ -25,4 +25,8 @@ export class ApiService {
     // return of(this.testTournament).pipe(delay(650));
     return this.httpClient.get<ITournament>(`${this.url}/${tmid}`);
   }
+
+  public downloadFile(tmid: string) {
+    return this.httpClient.get(`${this.url}/download/${tmid}`);
+  }
 }

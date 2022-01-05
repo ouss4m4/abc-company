@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { Tournament } from '../data/Tournament.schema';
 import multer from 'multer';
+import { join } from 'path';
 
 var storage = multer.diskStorage({
   destination: function (req: any, file: any, cb) {
@@ -14,15 +15,6 @@ var storage = multer.diskStorage({
 
 export class TournamentRouter {
   public router: Router;
-  /* public testTournament = {
-    name: 'Pepsi Co',
-    brandColor: '#004892',
-    accentColor: '#e40028',
-    logoLink: '/assets/images/pepsi-logo.png',
-    playersNumber: 24,
-    streamLink: 'https://www.pepsi.com/',
-    tournamentName: 'FIFA World Cup',
-  }; */
   public upload = multer({ storage: storage });
 
   constructor() {
@@ -40,6 +32,26 @@ export class TournamentRouter {
         res.status(500).send(error);
       }
     });
+    /* generate website and send it */
+    this.router.get('/download/:id', async (req: Request, res: Response) => {
+      try {
+        console.log('-----?? EW?');
+        const tmid = req.params.id;
+        const result = await Tournament.findById(tmid);
+        const file = join(
+          __dirname,
+          '..',
+          '..',
+          'dist',
+          'static',
+          result?.logoLink as string
+        );
+        res.download(file); // Set disposition and send it.
+      } catch (error) {
+        res.status(500).send(error);
+      }
+    });
+
     this.router.post(
       '/',
       (req, res, next) => {
